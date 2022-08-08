@@ -1,0 +1,14 @@
+{
+  "name": "server-node",
+  "version": "1.0.0",
+  "description": "rest API on Node",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "Akimba",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
