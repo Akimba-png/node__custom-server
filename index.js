@@ -1,28 +1,61 @@
-const constant = require('./const');
 const http = require('http');
+const EventEmitter = require('events');
+const constant = require('./const');
 
-const server = http.createServer((req, res) => {
-  switch (req.url) {
-    case constant.AppRoute.OFFERS:
-      res.end(`You have requested route ${req.url}`);
-      break;
-    case constant.AppRoute.POSTS:
-      res.end(`You have requested route ${req.url}`);
-      break;
-    case constant.AppRoute.LANG:
-      res.writeHead(200, { 'content-type': 'text/html; charset=utf8'});
-      res.end(
-        `Вы запросили страницу /lang
-        Чтобы увидеть текст необходимо указать заголовки`
+const emitter = new EventEmitter();
+
+class Router {
+  endPoint = {};
+
+  addEndPoint(method, path, handler) {
+    if (!this.endPoint[path]) {
+      this.endPoint[path] = {};
+    }
+    const currentEndPoint = this.endPoint[path];
+
+    if (currentEndPoint[method]) {
+      throw new Error(
+        `Method ${method} on path ${path} is already implemented'`
       );
-    case constant.AppRoute.MAIN:
-      res.end(`You are on the main page`);
-      break;
-    default:
-      res.end(`404 page not found`);
+    }
+    emitter.on(`[${path}]:[${method}]`, (req, res) => handler(req, res));
   }
-});
 
-server.listen(constant.DEFAULT_PORT, () =>
-  console.log(`Server is listening on port ${constant.DEFAULT_PORT}`)
+  setGetEndPoint(path, handler) {
+    this.addEndPoint('GET', path, handler);
+  }
+}
+
+class Server {
+  constructor() {
+    this.server = null;
+  }
+
+  #createServer() {
+    return http.createServer((req, res) => {
+      const emitted = emitter.emit(`[${req.url}]:[${req.method}]`, req, res);
+      if (!emitted) {
+        res.end('404 Page not found');
+      }
+    });
+  }
+
+  init() {
+    this.server = this.#createServer();
+  }
+
+  listen(port) {
+    this.server.listen(port, () =>
+      console.log(`Server is listening on port ${port}`)
+    );
+  }
+}
+
+const router = new Router();
+router.setGetEndPoint(constant.AppRoute.OFFERS, (req, res) =>
+  res.end('this is the end')
 );
+
+const server = new Server();
+server.init();
+server.listen(constant.DEFAULT_PORT);
