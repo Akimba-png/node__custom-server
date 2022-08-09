@@ -7,4 +7,8 @@ const AppRoute = {
   LANG: '/lang',
 };
 
-module.exports = {DEFAULT_PORT, AppRoute};
+const StatusCode = {
+  SUCCESS: 200,
+}
+
+module.exports = {DEFAULT_PORT, AppRoute, StatusCode};

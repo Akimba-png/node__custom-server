@@ -1,19 +1,12 @@
 const EventEmitter = require('events');
-const Router = require('./src/router');
 const Server = require('./src/server');
+const dataRouter = require('./src/routers/data-router');
 const constant = require('./const');
 
-const emitter = new EventEmitter();
 
-const router = new Router();
-router.setGetEndPoint(constant.AppRoute.OFFERS, (req, res) =>
-  res.end('You requested /offers')
-);
-router.setGetEndPoint(constant.AppRoute.POSTS, (req, res) =>
-  res.end('You requested /posts')
-);
+const emitter = new EventEmitter();
 
 const server = new Server(emitter);
 server.init();
 server.listen(constant.DEFAULT_PORT);
-server.registerRouter(router);
+server.registerRouter(dataRouter);
