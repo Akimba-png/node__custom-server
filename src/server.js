@@ -4,6 +4,7 @@ class Server {
   constructor(emitter) {
     this.server = null;
     this.emitter = emitter;
+    this.middleware = [];
   }
 
   #createServer() {
@@ -31,9 +32,17 @@ class Server {
     pathNames.forEach((path) => {
       const methodsNames = Object.keys(endPoint[path]);
       methodsNames.forEach((method) => {
-        this.emitter.on(`[${path}]:[${method}]`, (req, res) => endPoint[path][method](req, res));
+        const handler = endPoint[path][method];
+        this.emitter.on(`[${path}]:[${method}]`, (req, res) => {
+          this.middleware.forEach((middleware) => middleware(req, res));
+          handler(req, res);
+        });
       });
     });
+  }
+
+  addMiddleware(middleware) {
+    this.middleware.push(middleware);
   }
 }
 

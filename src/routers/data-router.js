@@ -1,7 +1,7 @@
 const Router = require('./../router');
 const constant = require('./../../const');
 
-const {StatusCode, AppRoute} = constant;
+const { AppRoute } = constant;
 
 
 const postData = [
@@ -11,13 +11,7 @@ const postData = [
 const dataRouter = new Router();
 
 dataRouter.setGetEndPoint(AppRoute.POSTS, (req, res) => {
-  res.writeHead(StatusCode.SUCCESS, {'content-type': 'application/json'});
-  res.end(JSON.stringify(postData));
-});
-
-dataRouter.setGetEndPoint(AppRoute.OFFERS, (req, res) => {
-  res.writeHead(StatusCode.SUCCESS, {'content-type': 'text/html'});
-  res.end('<ul><li>Offer 1</li></ul>');
+  res.send(postData);
 });
 
 
