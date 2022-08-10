@@ -18,6 +18,10 @@ class Router {
   setGetEndPoint(path, handler) {
     this.addEndPoint('GET', path, handler);
   }
+
+  setPostEndPoint(path, handler) {
+    this.addEndPoint('POST', path, handler);
+  }
 }
 
 module.exports = Router;

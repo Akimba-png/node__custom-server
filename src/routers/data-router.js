@@ -14,5 +14,10 @@ dataRouter.setGetEndPoint(AppRoute.POSTS, (req, res) => {
   res.send(postData);
 });
 
+dataRouter.setPostEndPoint(AppRoute.POSTS, (req, res) => {
+  postData.push(JSON.parse(req.body));
+  res.send(postData);
+})
+
 
 module.exports = dataRouter;
