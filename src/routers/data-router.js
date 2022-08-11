@@ -11,6 +11,10 @@ const postData = [
 const dataRouter = new Router();
 
 dataRouter.setGetEndPoint(AppRoute.POSTS, (req, res) => {
+  if (req.pathparam.id) {
+    res.send(postData.filter((e) => e.id === Number(req.pathparam.id)))
+    return;
+  }
   res.send(postData);
 });
 

@@ -1,14 +1,15 @@
 const EventEmitter = require('events');
 const Server = require('./src/server');
 const dataRouter = require('./src/routers/data-router');
-const constant = require('./const');
+const {DEFAULT_PORT, BASE_URL} = require('./const');
 const toJsonMiddleware = require('./src/middlewares/toJson');
-
+const parseUrl = require('./src/middlewares/parseUrl');
 
 const emitter = new EventEmitter();
 
 const server = new Server(emitter);
 server.init();
-server.listen(constant.DEFAULT_PORT);
+server.listen(DEFAULT_PORT);
 server.addMiddleware(toJsonMiddleware);
+server.addMiddleware(parseUrl(BASE_URL));
 server.registerRouter(dataRouter);

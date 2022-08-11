@@ -9,13 +9,15 @@ class Server {
 
   #createServer() {
     return http.createServer((req, res) => {
+      this.middleware.forEach((middleware) => middleware(req, res));
+
       let body = '';
       req.on('data', (chunk => body+= chunk));
       req.on('end', () => {
         if (body) {
           req.body = body;
         }
-        const emitted = this.emitter.emit(`[${req.url}]:[${req.method}]`, req, res);
+        const emitted = this.emitter.emit(`[${req.pathname}]:[${req.method}]`, req, res);
         if (!emitted) {
           res.end('404 Page not found');
         }
@@ -41,7 +43,6 @@ class Server {
       methodsNames.forEach((method) => {
         const handler = endPoint[path][method];
         this.emitter.on(`[${path}]:[${method}]`, (req, res) => {
-          this.middleware.forEach((middleware) => middleware(req, res));
           handler(req, res);
         });
       });

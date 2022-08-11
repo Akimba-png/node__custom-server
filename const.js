@@ -1,4 +1,5 @@
 const DEFAULT_PORT = 5000;
+const BASE_URL = 'http://localhost:5000/';
 
 const AppRoute = {
   MAIN: '/',
@@ -11,4 +12,4 @@ const StatusCode = {
   SUCCESS: 200,
 }
 
-module.exports = {DEFAULT_PORT, AppRoute, StatusCode};
+module.exports = {DEFAULT_PORT, BASE_URL, AppRoute, StatusCode};
