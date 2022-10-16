@@ -1,9 +1,9 @@
 const EventEmitter = require('events');
 const Server = require('./src/server');
 const dataRouter = require('./src/routers/data-router');
-const {DEFAULT_PORT, BASE_URL} = require('./const');
 const toJsonMiddleware = require('./src/middlewares/toJson');
 const parseUrl = require('./src/middlewares/parseUrl');
+const {DEFAULT_PORT, BASE_URL} = require('./const');
 
 const emitter = new EventEmitter();
 

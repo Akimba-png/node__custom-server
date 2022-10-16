@@ -1,10 +1,10 @@
 {
-  "name": "server-node",
+  "name": "node__custom-server",
   "version": "1.0.0",
   "description": "rest API on Node",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index.js"
   },
   "author": "Akimba",
   "license": "ISC",
